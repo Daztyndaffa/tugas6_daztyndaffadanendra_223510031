@@ -2,18 +2,18 @@
   "article": [
     {
       "id": "1",
-      "title": "Belajar",
-      "content": "Pemrograman Berbasis Komponen"
-    },
-    {
-      "id": "2",
       "title": "Makan",
       "content": "Makan Siang dengan ayam"
     },
     {
+      "id": "2",
+      "title": "Mandi",
+      "content": "Siap-siap sholat jumat"
+    },
+    {
       "id": "3",
       "title": "Tidur",
-      "content": "Tidur Pada pukul 23.00"
+      "content": "Tidur sebelum pukul 23.00"
     }
   ]
 }

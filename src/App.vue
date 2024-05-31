@@ -51,29 +51,43 @@ export default {
     }
 
     async function save() {
-      try {
-        const url = form.id
-          ? `http://localhost:3000/article/${form.id}`
-          : 'http://localhost:3000/article';
-        const method = form.id ? 'put' : 'post';
-        const response = await axios[method](url, form);
+  try {
+    const url = form.id
+      ? `http://localhost:3000/article/${form.id}`
+      : 'http://localhost:3000/article';
+    const method = form.id ? 'put' : 'post';
 
-        if (form.id) {
-          const index = articles.value.findIndex((article) => article.id === response.data.id);
-          if (index !== -1) {
-            articles.value[index] = response.data;
-          }
-        } else {
-          articles.value.push(response.data);
-        }
-
-        form.id = null;
-        form.title = '';
-        form.content = '';
-      } catch (error) {
-        console.error('Error saving article:', error);
+    // Generate a new ID if form.id is null
+    if (!form.id) {
+      const response = await axios.get('http://localhost:3000/article');
+      const articles = response.data;
+      if (articles.length > 0) {
+        const lastId = articles[articles.length - 1].id;
+        form.id = lastId + 1; // Increment the last ID by 1
+      } else {
+        form.id = 1; // Start with ID 1 if no articles exist
       }
     }
+
+    const response = await axios[method](url, form);
+
+    if (form.id) {
+      const index = articles.value.findIndex((article) => article.id === response.data.id);
+      if (index !== -1) {
+        articles.value[index] = response.data;
+      }
+    } else {
+      articles.value.push(response.data);
+    }
+
+    form.id = null;
+    form.title = '';
+    form.content = '';
+  } catch (error) {
+    console.error('Error saving article:', error);
+  }
+}
+
 
     async function remove(id) {
       if (confirm('Are you sure you want to delete this article?')) {
